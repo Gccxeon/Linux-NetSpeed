@@ -343,77 +343,17 @@ Update_Shell(){
 start_menu(){
 clear
 echo && echo -e " TCP加速 一键安装管理脚本 ${Red_font_prefix}[v${sh_ver}]${Font_color_suffix}
-  -- 就是爱生活 | 94ish.me --
-  
- ${Green_font_prefix}0.${Font_color_suffix} 升级脚本
-————————————内核管理————————————
- ${Green_font_prefix}1.${Font_color_suffix} 安装 BBR/BBR魔改版内核
- ${Green_font_prefix}2.${Font_color_suffix} 安装 BBRplus版内核 
- ${Green_font_prefix}3.${Font_color_suffix} 安装 Lotserver(锐速)内核
-————————————加速管理————————————
- ${Green_font_prefix}4.${Font_color_suffix} 使用BBR加速
- ${Green_font_prefix}5.${Font_color_suffix} 使用BBR魔改版加速
- ${Green_font_prefix}6.${Font_color_suffix} 使用暴力BBR魔改版加速(不支持部分系统)
- ${Green_font_prefix}7.${Font_color_suffix} 使用BBRplus版加速
- ${Green_font_prefix}8.${Font_color_suffix} 使用Lotserver(锐速)加速
-————————————杂项管理————————————
- ${Green_font_prefix}9.${Font_color_suffix} 卸载全部加速
- ${Green_font_prefix}10.${Font_color_suffix} 系统配置优化
- ${Green_font_prefix}11.${Font_color_suffix} 退出脚本
-————————————————————————————————" && echo
+
 
 	check_status
-	if [[ ${kernel_status} == "noinstall" ]]; then
+	if [[ ${kernel_status} != "BBRplus" ]]; then
 		echo -e " 当前状态: ${Green_font_prefix}未安装${Font_color_suffix} 加速内核 ${Red_font_prefix}请先安装内核${Font_color_suffix}"
-        num = 3
+        check_sys_bbr
 	else
 		echo -e " 当前状态: ${Green_font_prefix}已安装${Font_color_suffix} ${_font_prefix}${kernel_status}${Font_color_suffix} 加速内核 , ${Green_font_prefix}${run_status}${Font_color_suffix}"
-		num = 7
+		startbbrplus
 	fi
-case "$num" in
-	0)
-	Update_Shell
-	;;
-	1)
-	check_sys_bbr
-	;;
-	2)
-	check_sys_bbrplus
-	;;
-	3)
-	check_sys_Lotsever
-	;;
-	4)
-	startbbr
-	;;
-	5)
-	startbbrmod
-	;;
-	6)
-	startbbrmod_nanqinlang
-	;;
-	7)
-	startbbrplus
-	;;
-	8)
-	startlotserver
-	;;
-	9)
-	remove_all
-	;;
-	10)
-	optimizing_system
-	;;
-	11)
-	exit 1
-	;;
-	*)
-	clear
-	echo -e "${Error}:请输入正确数字 [0-11]"
-	sleep 5s
-	start_menu
-	;;
-esac
+
 }
 #############内核管理组件#############
 
